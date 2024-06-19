@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${title} ?: 'Danh Sách Nhân Viên'">Danh Sách Nhân Viên</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Danh sách nhân viên</h1>
+    <div>
+        <a th:href="@{/NhanVien/add}" class="btn btn-primary mb-3">Thêm Nhân Viên</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Mã Nhân Viên</th>
+            <th>Tên Vhân Viên</th>
+            <th>Giới Tính</th>
+            <th>Nơi Sinh</th>
+            <th>Tên Phòng</th>
+            <th>Lương</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="NhanVien : ${NhanVien}">
+            <td th:text="${NhanVien.MaNV}"></td>
+            <td th:text="${NhanVien.tenNV}"></td>
+            <td>
+                <img th:src="@{${NhanVien.Phai == 'NU' ? '/images/girl.png' : '/images/male.png'}}" alt="Gender" class="img-thumbnail" style="width: 50px; height: 50px;">
+            </td>
+            <td th:text="${NhanVien.NoiSinh}"></td>
+            <td th:text="${NhanVien.pb.name}"></td>
+            <td th:text="${NhanVien.Luong}"></td>
+
+            <td>
+                <!-- Hiển thị nút sửa và xóa chỉ dành cho người dùng ADMIN -->
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{/NhanVien/edit/{id}(id=${NhanVien.MaNV})}"
+                       class="btn btn-success btn-sm">Sửa</a>
+                    <a th:href="@{/NhanVien/delete/{id}(id=${NhanVien.MaNV})}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Bạn có chắc không?')">Xóa</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

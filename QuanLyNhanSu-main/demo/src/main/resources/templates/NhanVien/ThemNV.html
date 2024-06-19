@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+      layout:decorate="~{layout}">
+<head>
+    <title>Thêm Nhân Viên</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Add New Employee</h1>
+    <form th:action="@{/NhanVien/add}" th:object="${NhanVien}" method="post"
+          class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="MaNV" class="form-label">Mã NV:</label>
+            <input type="text" th:field="*{MaNV}" class="form-control" id="MaNV"
+                   required>
+            <div class="text-danger" th:if="${#fields.hasErrors('MaNV')}"
+                 th:errors="*{MaNV}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="tenNV" class="form-label">Tên NV:</label>
+            <input type="text" th:field="*{tenNV}" class="form-control" id="tenNV"
+                   required>
+            <div class="text-danger" th:if="${#fields.hasErrors('tenNV')}"
+                 th:errors="*{tenNV}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="Phai" class="form-label">Giới Tính:</label>
+            <select th:field="*{Phai}" class="form-control" id="Phai" required>
+                <option value="">Select Gender</option>
+                <option value="NAM">Nam</option>
+                <option value="NU">Nữ</option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('Phai')}"
+                 th:errors="*{Phai}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="NoiSinh" class="form-label">Nơi Sinh:</label>
+            <input type="text" th:field="*{NoiSinh}" class="form-control" id="NoiSinh"
+                   required>
+            <div class="text-danger" th:if="${#fields.hasErrors('NoiSinh')}"
+                 th:errors="*{NoiSinh}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="PhongBan" class="form-label">Phòng Ban:</label>
+            <select th:field="*{pb.MaPhong}" class="form-control" id="PhongBan" required>
+                <option value="">Chọn Phòng Ban</option>
+                <option th:each="PhongBan : ${PhongBan}" th:value="${PhongBan.MaPhong}"
+                        th:text="${PhongBan.name}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('pb.MaPhong')}"
+                 th:errors="*{pb.MaPhong}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="Luong" class="form-label">Lương:</label>
+            <input type="number" th:field="*{Luong}" class="form-control" id="Luong"
+                   required>
+            <div class="text-danger" th:if="${#fields.hasErrors('Luong')}"
+                 th:errors="*{Luong}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm Nhân Viên</button>
+        <a th:href="@{/NhanVien}" class="btn btn-link">Cancel</a>
+    </form>
+</section>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>
